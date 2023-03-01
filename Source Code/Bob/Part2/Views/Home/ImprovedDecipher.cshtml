@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Improved Decipher";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="container" style="margin:20px 0;">
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal">
+
+            <div class="form-group">
+                <label for="cipher" class="control-label col-md-2" style="margin-top:10px;">Cipher Text :</label>
+                <div class="col-md-9" style="margin-top:10px;">
+                    <input id="cipher" name="cipher" type="text" class="form-control" style="max-width:100% !important;" value="@ViewBag.cipher" />
+                </div>
+
+                <div class="col-md-1" style="margin-top:10px;">
+                    <button type="submit" class="btn btn-success">Decode</button>
+                </div>
+            </div>
+
+        </div>
+    }
+
+    <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+        <div class="col-md-2" style="padding:15px;">Today's Message : </div>
+        <div class="col-md-10" style="padding:15px; font-weight:700;">@ViewBag.Decipher</div>
+    </div>
+
+    <div class="row" style="margin-bottom:20px; background-color: #b8f1af; border-radius:5px; border: 1px solid #2f7c2c; padding:10px 0;">
+        <div class="col-md-2" style="padding:15px;">Today's Address : </div>
+        <div class="col-md-10" style="padding:15px; font-weight:500;">@ViewBag.TodayAddress</div>
+    </div>
+</div>
+
+

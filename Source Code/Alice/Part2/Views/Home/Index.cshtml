@@ -1,0 +1,208 @@
+﻿@{
+    ViewBag.Title = "I'm Bob";
+    ViewBag.Name = "Bob";
+}
+
+@*<h2>@Session["Title</h2>
+
+    <div>Bob Public Key =   @Session["BobPublicKey</div>
+    <div>Bob Private Key =   @Session["BobPrivateKey</div>
+
+    <div>Alice Public Key =   @Session["AlicePublicKey</div>
+    <div>Bob Secret Key =   @Session["SecretKey</div>
+    <div>Prime = @Session["Prime</div>
+    <div>g = @Session["g</div>
+
+
+
+    <div>@Session["SharedKey</div>*@
+
+
+<div class="container" style="margin:20px 0;">
+
+    <div class="container">
+        <div class="cards" style=" max-width: 1200px; margin: 0 auto; display: grid; gap: 5rem;">
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px;width:200px;">Alice Public Key : @Session["AlicePublicKey"]</div>
+            </div>
+
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px; width:200px;">Alice Private Key : @Session["AlicePrivateKey"]</div>
+            </div>
+
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px;width:200px;">Prime Number for Cyclic Group : @Session["Prime"]</div>
+            </div>
+
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px;width:200px;">g : @Session["g"]</div>
+            </div>
+        </div>
+
+        <div style="margin-top:-15px; margin-left:-20px; ">
+            @using (Html.BeginForm("ExchangeKey", "Home", FormMethod.Post))
+            {
+                <div class="form-horizontal">
+                    <div class="col-md-1" style="margin-top:10px;">
+                        <button type="submit" class="btn btn-success" style="margin-bottom: 20px;">Generate Keys and Exchange Public Key</button>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="cards_keys" style="margin: 0 auto; display: grid; gap: 5rem;">
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px;width:100%;">Alice Shared Key  : @Session["SharedKey"]</div>
+            </div>
+
+            <div class="row" style="margin-bottom:20px; background-color: #f1f49b; border-radius:5px; border: 1px solid #ffd800; padding:10px 0;">
+                <div class="col-md-2" style="padding:15px;width:100%;">Alice Secret Key (BY BBS)  : @Session["SecretKey"]</div>
+            </div>
+        </div>
+        <div class="row" style="margin-bottom:20px; background-color: #b8f1af; border-radius:5px; border: 1px solid #2f7c2c; padding:10px 0;">
+            <div class="col-md-2" style="padding:15px;width:100%">Bob Public Key (Received By Api)  : @Session["BobPublicKey"]</div>
+        </div>
+
+    </div>
+    <div class="container" style="background-color:#f8f3fb; padding:30px; border:1px solid #9721ed; border-radius:5px; margin-top:40px;">
+        <div class="cards" style=" max-width: 1200px; margin: 0 auto; display: grid; gap: 5rem;">
+            <div style="">
+                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div>
+                        @Html.TextBox("file", "", new { type = "file" }) <br />
+                        <input type="submit" class="btn btn-primary" value="Upload" /><span>@Session["Uploaded"]</span>
+
+                    </div>
+                }
+            </div>
+            <div>
+                @using (Html.BeginForm("Encryptfile", "Home", FormMethod.Post))
+                {
+                    <div class="form-horizontal" style="">
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">Encrypt This File and Send to Bob</button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+            <div>
+                @if (Session["BobDecodeText"] != null)
+                {
+                    <div>Bob Confirmation:   @Session["BobDecodeText"]</div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="container" style="border:1px solid #9721ed; background-color:#f8f3fb; border-radius:5px; margin-top:20px; padding:15px;">
+        <div class="container" style="margin-top:20px;">
+            <div>
+                @using (Html.BeginForm("EncryptMessage", "Home", FormMethod.Post))
+                {
+                    <input name="mystr" class="form-control" placeholder="Enter The Message..." style="display:inline-block;width:600px;" />
+                    <div class="form-horizontal" style="margin-top:15px;">
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-primary">Send Message to Bob</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div>
+                @if (Session["BobDecodeText"] != null)
+                {
+                    <div>Bob Confirmation:   @Session["BobDecodeText"]</div>
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container" style="background-color:#f8f3fb; padding:30px; border:1px solid #9721ed; border-radius:5px; margin-top:40px;">
+        <div class="cards" style=" max-width: 1200px; margin: 0 auto; display: grid; gap: 5rem;">
+            <div style="">
+                @using (Html.BeginForm("ShowReceivedMessage", "Home", FormMethod.Post))
+                {
+                    <div class="form-horizontal">
+                        <div class="col-md-1" style="">
+                            <button type="submit" class="btn btn-primary">Get File Received from Bob</button>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div style="">
+                <div class="form-horizontal">
+                    <div class="col-md-1" style="">
+                        <button onclick="show_file()" type="submit" class="btn btn-primary">Show original File and Decrypted File</button>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div id="result_file" class="container" style="border:1px solid #c76d0e; background-color:#f7f3e3; border-radius:5px; margin-top:50px;width:100%; display:none;">
+                <div style="">
+                    <div>
+                        <a href="~/Content/UploadFiles/DemoReceived.txt" download>
+                            File Received from Bob (Encrepted)
+                        </a>
+                    </div>
+                    <div>
+                        <a href="~/Content/UploadFiles/Decrypted.txt" download>
+                            Decrypted File with readble content
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    <div class="container" style="background-color:#f8f3fb; padding:30px; border:1px solid #9721ed; border-radius:5px; margin-top:40px;">
+        <div class="cards" style=" max-width: 1200px; margin: 0 auto; display: grid; gap: 5rem;">
+            <div>
+                @using (Html.BeginForm("ShowReceivedData", "Home", FormMethod.Post))
+                {
+
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-primary">Get Bob's transferred Message</button>
+                    </div>
+
+                }
+            </div>
+            <div class="col-md-1">
+                <button onclick="show_data()" type="submit" class="btn btn-primary">Show Message from Bob</button>
+            </div>
+
+        </div>
+
+        <div id="result_message" class="container" style="border:1px solid #c76d0e; background-color:#f7f3e3; border-radius:5px; margin-top:50px; width:100%; display:none;">
+
+
+
+            <div style="text-align:left">Message Received From Bob</div>
+            <div style="display: grid; column-gap: 50px; grid-template-columns: auto; padding: 10px;">
+                <div class="row" style="margin-bottom:20px; background-color: #b8f1af; border-radius:5px; border: 1px solid #2f7c2c; padding:10px 0;">
+                    <div class="col-md-2" style="padding:15px;width:100%">Message  :@Session["EncodedMessage"]</div>
+                </div>
+            </div>
+            <div style="text-align:left">Message After Decryption</div>
+            <div style="display: grid; column-gap: 50px; grid-template-columns: auto; padding: 10px;">
+                <div class="row" style="margin-bottom:20px; background-color: #b8f1af; border-radius:5px; border: 1px solid #2f7c2c; padding:10px 0;">
+                    <div class="col-md-2" style="padding:15px;width:100%">Message  :@Session["DecodedMessage"]</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    function show_file() {
+        $(result_file).css("display", "block");
+    }
+    function show_data() {
+        $(result_message).css("display", "block");
+    }
+</script>

@@ -1,0 +1,6 @@
+You have implemented a simple web server in Assignment1 which receives ciphers and decrypts it based on the previously saved keys. However, in most real-world applications it is
+common for the key to be decided by both parties at the time of connection using the Key
+exchange methods. In this part you will use the Program You made in Part I to expand your
+web server to exchange keys before connecting and send data using the acquired key. Alice
+and Bob would each run an instance of the program and try to exchange keys at first. Later
+on, they will start to send and receive data using the key.  
